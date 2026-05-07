@@ -1,4 +1,5 @@
-import { _decorator, assetManager, Component, instantiate, Node, Prefab, ResolutionPolicy, resources, screen, Size, UITransform, view } from 'cc';
+import { _decorator, assetManager, AudioSource, Component, instantiate, Node, Prefab, ResolutionPolicy, resources, screen, Size, UITransform, view } from 'cc';
+import { ResManager } from '../fw/res/ResManager';
 const { ccclass, property } = _decorator;
 
 
@@ -28,17 +29,25 @@ export class boost extends Component {
         //     match3Node.getComponent(UITransform).setContentSize(G_VIEW_SIZE.clone());
         // }, 1);
         this.scheduleOnce(() => {
-            assetManager.loadBundle("Match3BN", (e, bundle) => {
-                bundle.load("Match3UI", Prefab, (error, prefab: Prefab) => {
-                    if (error) {
-                        console.error(error);
-                        return;
-                    }
-                    let match3Node = instantiate(prefab);
-                    this.node.addChild(match3Node);
-                    match3Node.getComponent(UITransform).setContentSize(G_VIEW_SIZE.clone());
-                })
-            })
+            ResManager.getInstance().loadPrefab("Match3BN", "Match3UI", prefab => {
+                if (!prefab) {
+                    console.error("Match3UI 为空");
+                    return;
+                }
+                let match3Node = instantiate(prefab);
+                this.node.addChild(match3Node);
+                match3Node.getComponent(UITransform).setContentSize(G_VIEW_SIZE.clone());
+            });
+            ResManager.getInstance().loadAudioClip("Match3BN", "Audio/background", autioClip => {
+                if (!autioClip) {
+                    console.error("background 为空");
+                    return;
+                }
+                let audioSource = this.node.addComponent(AudioSource);
+                audioSource.clip = autioClip;
+                audioSource.loop = true;
+                audioSource.play();
+            });
         }, 1)
     }
 

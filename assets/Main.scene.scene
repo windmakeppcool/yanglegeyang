@@ -310,7 +310,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "726e9b3f-f998-476f-9d63-dcfd213d6cfc@f9941",
+      "__uuid__": "f14c3f87-83e6-40a1-94cd-f41bdf1cfc20@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,
@@ -733,10 +733,6 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "match3Prefab": {
-      "__uuid__": "91662040-6de2-4bf8-93c4-2d259bcef129",
-      "__expectedType__": "cc.Prefab"
-    },
     "_id": "7ctVpCCLVAX4N+fKeUyX9c"
   },
   {
