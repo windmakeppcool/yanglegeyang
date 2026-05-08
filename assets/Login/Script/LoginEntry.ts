@@ -9,8 +9,8 @@ export class LoginEntry extends Component {
     start() {
         // 加载背景音乐后播放
         AudioManager.getInstance().playMusic({
-            b: "Match3BN",
-            l: "Audio/background",
+            b: "LoginBN",
+            l: "Res/Audio/background",
         });
 
         this.scheduleOnce(() => {
