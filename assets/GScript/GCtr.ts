@@ -2,6 +2,7 @@ import { _decorator, Component, Node, Size, Canvas, view, screen, ResolutionPoli
 import { UIManager } from './core/modules/ui/UIManager';
 import { ResManager } from './core/modules/res/ResManager';
 import { LogCtr } from './GamePlay/Modules/Login/LoginCtr';
+// import { Match3UI } from './GamePlay/Modules/Match3/Match3UI';
 const { ccclass, property } = _decorator;
 
 
@@ -30,11 +31,6 @@ export class GCtr extends Component {
             UIManager.getInstance().open("Match3UI");
             console.log("登录 登录成功");
         });
-
-        ResManager.getInstance().loadBundle("LoginBN", _ => {
-            const loginEntryClass = js.getClassByName("LoginEntry") as typeof Component;
-            this.node.addComponent(loginEntryClass);
-        })
     }
     
     start() {

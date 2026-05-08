@@ -26,6 +26,11 @@ export class ResManager extends Component {
 
     loadPrefab(bundleName: string, prefabPath: string, cb: (prefab: Prefab | null) => void) {
         assetManager.loadBundle(bundleName, (e, bundle) => {
+            if (e || !bundle) {
+                console.error(`Bundle ${bundleName} 加载失败:`, e);
+                cb(null);
+                return;
+            }
             bundle.load(prefabPath, Prefab, (err, prefab: Prefab) => {
                 if (err) {
                     console.error(err);
@@ -42,6 +47,11 @@ export class ResManager extends Component {
 
     loadAudioClip(bundleName: string, audioPath: string, cb: (assert: AudioClip | null) => void) {
         assetManager.loadBundle(bundleName, (e, bundle) => {
+            if (e || !bundle) {
+                console.error(`Bundle ${bundleName} 加载失败:`, e);
+                cb(null);
+                return;
+            }
             bundle.load(audioPath, AudioClip, (err, assert: AudioClip) => {
                 if (err) {
                     console.error(err);
@@ -58,6 +68,11 @@ export class ResManager extends Component {
 
     loadBundle(bundleName: string, cb?: (bundle: AssetManager.Bundle | null) => void) {
         assetManager.loadBundle(bundleName, (e, bundle) => {
+            if (e) {
+                console.error(`Bundle ${bundleName} 加载失败:`, e);
+                cb && cb(null);
+                return;
+            }
             cb && cb(bundle);
         });
     }
