@@ -8,10 +8,7 @@ const { ccclass, property } = _decorator;
 export class LoginEntry extends Component {
     start() {
         // 加载背景音乐后播放
-        AudioManager.getInstance().playMusic({
-            b: "LoginBN",
-            l: "Res/Audio/background",
-        });
+        AudioManager.getInstance().playMusic(LoginAudio.bgm);
 
         this.scheduleOnce(() => {
             ResManager.getInstance().loadBundle("Match3BN", ()=> {
