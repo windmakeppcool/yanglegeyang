@@ -1,4 +1,4 @@
-import { _decorator, assetManager, AudioClip, Component, Node, Prefab} from 'cc';
+import { _decorator, AssetManager, assetManager, AudioClip, Component, Node, Prefab} from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('ResManager')
@@ -48,6 +48,12 @@ export class ResManager extends Component {
                 cb(assert)
             })
         })
+    }
+
+    loadBundle(bundleName: string, cb?: (bundle: AssetManager.Bundle | null) => void) {
+        assetManager.loadBundle(bundleName, (e, bundle) => {
+            cb && cb(bundle);
+        });
     }
 }
 

@@ -15,40 +15,12 @@ export class boost extends Component {
     // @property(Prefab) private match3Prefab: Prefab = null;
 
     start() {
-        const WIN_SIZE_W = screen.windowSize.width;
-        const WIN_SIZE_H = screen.windowSize.height;
-        let isScreenWidthLarger = this.adapterScreen();
-        if (isScreenWidthLarger) {
-            screen.windowSize = new Size(WIN_SIZE_W + 1, WIN_SIZE_H);
-            screen.windowSize = new Size(WIN_SIZE_W, WIN_SIZE_H);
-        }
-
-        // this.scheduleOnce(() => {
-        //     let match3Node = instantiate(this.match3Prefab);
-        //     this.node.addChild(match3Node);
-        //     match3Node.getComponent(UITransform).setContentSize(G_VIEW_SIZE.clone());
-        // }, 1);
-        this.scheduleOnce(() => {
-            ResManager.getInstance().loadPrefab("Match3BN", "Match3UI", prefab => {
-                if (!prefab) {
-                    console.error("Match3UI 为空");
-                    return;
-                }
-                let match3Node = instantiate(prefab);
-                this.node.addChild(match3Node);
-                match3Node.getComponent(UITransform).setContentSize(G_VIEW_SIZE.clone());
-            });
-            ResManager.getInstance().loadAudioClip("Match3BN", "Audio/background", autioClip => {
-                if (!autioClip) {
-                    console.error("background 为空");
-                    return;
-                }
-                let audioSource = this.node.addComponent(AudioSource);
-                audioSource.clip = autioClip;
-                audioSource.loop = true;
-                audioSource.play();
-            });
-        }, 1)
+        this.adapterScreen();
+        
+        ResManager.getInstance().loadBundle("LoginBN", _ => {
+            const loginEntryClass = js.getClassByName("LoginEntry") as typeof Component;
+            this.node.addComponent(loginEntryClass);
+        })
     }
 
     update(deltaTime: number) {
@@ -67,6 +39,7 @@ export class boost extends Component {
         if (targetResolutionPolicy !== resolutionPolicy.getContentStrategy().strategy) {
             /** 保证设计分辨率的内容都能显示出来 */
             view.setDesignResolutionSize(designSize.width, designSize.height, targetResolutionPolicy);
+            view.emit("canvas-resize");
         }
         /** 实际的尺寸会和设计分辨率在一个维度，但是宽或高更大 */
         if (isScreenWidthLarger) {
