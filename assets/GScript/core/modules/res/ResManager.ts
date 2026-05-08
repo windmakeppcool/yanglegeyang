@@ -1,28 +1,8 @@
-import { _decorator, AssetManager, assetManager, AudioClip, Component, Node, Prefab} from 'cc';
+import { _decorator, AssetManager, assetManager, AudioClip, Prefab } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('ResManager')
-export class ResManager extends Component {
-    private static _instance: ResManager = null!;
-    start() {
-
-    }
-
-    update(deltaTime: number) {
-        
-    }
-
-    /** 获取单例的接口 */
-    static getInstance() {
-        if (this._instance === null) {
-            this._instance = new ResManager();
-        }
-        return this._instance;
-    }
-
-    constructor() {
-        super();
-    }
+export class ResManager {
 
     loadPrefab(bundleName: string, prefabPath: string, cb: (prefab: Prefab | null) => void) {
         assetManager.loadBundle(bundleName, (e, bundle) => {
@@ -41,6 +21,7 @@ export class ResManager extends Component {
             })
         })
     }
+
     loadPrefabByBUrl(bUrl: IBundleUrl, cb: (prefab: Prefab | null) => void) { 
         this.loadPrefab(bUrl.b, bUrl.l, cb); 
     }
@@ -62,6 +43,7 @@ export class ResManager extends Component {
             })
         })
     }
+
     loadAudioByBUrl(bUrl: IBundleUrl, cb: (audioClip: AudioClip | null) => void) { 
         this.loadAudioClip(bUrl.b, bUrl.l, cb); 
     }
@@ -77,18 +59,9 @@ export class ResManager extends Component {
         });
     }
 
-    /**
-     * 加载 Asset Bundle 接口
-     * @param bundleName 
-     * @returns 
-     */
-    loadBundleAsync(bundleName: string): Promise<AssetManager.Bundle> {
-        return new Promise<AssetManager.Bundle>(rs => {
+    loadBundleAsync(bundleName: string): Promise<AssetManager.Bundle | null> {
+        return new Promise<AssetManager.Bundle | null>(rs => {
             this.loadBundle(bundleName, rs);
         })
     }
-
-    
-    
 }
-

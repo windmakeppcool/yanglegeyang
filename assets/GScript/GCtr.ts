@@ -1,10 +1,8 @@
-import { _decorator, Component, Node, Size, Canvas, view, screen, ResolutionPolicy, js } from 'cc';
+import { _decorator, Component, Canvas } from 'cc';
 import { UIManager } from './core/modules/ui/UIManager';
 import { ResManager } from './core/modules/res/ResManager';
 import { LogCtr } from './GamePlay/Modules/Login/LoginCtr';
-// import { Match3UI } from './GamePlay/Modules/Match3/Match3UI';
 const { ccclass, property } = _decorator;
-
 
 declare global {
     const gCtr: GCtr;
@@ -29,7 +27,7 @@ export class GCtr extends Component {
         this.loginCtr.showLogin(async () => {
             await gCtr.res.loadBundleAsync("Match3BN");
             gCtr.ui.open("Match3UI");
-            console.log("登录 登录成功");
+            console.log("登录成功");
         });
     }
     
