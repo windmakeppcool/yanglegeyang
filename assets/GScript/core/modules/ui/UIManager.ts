@@ -1,16 +1,23 @@
 import { instantiate, UITransform, Canvas, Layers, Node } from 'cc';
-import { G_VIEW_SIZE } from '../../boost';
-import { ResManager } from '../../fw/res/ResManager';
 import { EViewLayer } from './EViewLayer';
-import { Match3UI } from '../../Match3/script/Match3UI';
+import { Match3UI } from '../../../GamePlay/Modules/Match3/Match3UI';
 import { BL } from '../res/ResConst';
+import { ResManager } from '../res/ResManager';
+import { G_VIEW_SIZE } from 'db://assets/Boost/boost';
 
-function getUIClassBUrl(uiClass: any): IBundleUrl | void {
-    if (uiClass === Match3UI) {
-        return BL("Match3UI", "Match3BN");
-    }
-    console.log(`未找到 UI 类 ${uiClass}`);
+
+const g_UICls2BUrl = new Map<any, IBundleUrl>();
+/** 注册接口 */
+function setUIClassBUrl(uiClass: any, bUrl: IBundleUrl) {
+    return g_UICls2BUrl.set(uiClass, bUrl);
 }
+
+/** 获取接口 */
+function getUIClassBUrl(uiClass: any): IBundleUrl | void {
+    return g_UICls2BUrl.get(uiClass);
+}
+
+g_UICls2BUrl.set(Match3UI, BL("Match3UI", "Match3BN"));
 
 class MyLayer {
     public readonly node: Node;
@@ -32,7 +39,7 @@ export class UIManager {
     private m_Canvas: Canvas = null!;
     private m_Layers: MyLayer[] = [];
 
-    Infinity(canvas: Canvas) {
+    init(canvas: Canvas) {
         this.m_Canvas = canvas;
         for (let layer = EViewLayer.Scene, maxLayer = EViewLayer.Toast; layer <= maxLayer; layer++) {
             this.m_Layers.push(new MyLayer(layer, canvas, EViewLayer[layer]));

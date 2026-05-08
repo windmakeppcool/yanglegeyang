@@ -1,9 +1,9 @@
 import { _decorator, AudioSource, Component, instantiate, UITransform } from 'cc';
-import { G_VIEW_SIZE } from '../../boost';
-import { ResManager } from '../../fw/res/ResManager';
-import { AudioManager } from '../../fw/audio/audioManager';
 import { LoginAudio } from './LoginAudio';
+import { ResManager } from '../../../core/modules/res/ResManager';
+import { AudioManager } from '../../../core/modules/audio/audioManager';
 const { ccclass, property } = _decorator;
+
 
 @ccclass('LoginEntry')
 export class LoginEntry extends Component {

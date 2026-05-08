@@ -1,8 +1,7 @@
-import { _decorator, Component, ResolutionPolicy, screen, Size, view, js, Canvas } from 'cc';
-import { ResManager } from './fw/res/ResManager';
-import { UIManager } from './fw/ui/UIManager';
+import { _decorator, Component, Node, Size, Canvas, view, screen, ResolutionPolicy, js } from 'cc';
+import { UIManager } from './core/modules/ui/UIManager';
+import { ResManager } from './core/modules/res/ResManager';
 const { ccclass, property } = _decorator;
-
 
 /** 
  * 画布的标准化尺寸，就是之前说的
@@ -11,20 +10,22 @@ const { ccclass, property } = _decorator;
  */
 export const G_VIEW_SIZE = new Size(0, 0);
 
-@ccclass('boost')
-export class boost extends Component {
-    // @property(Prefab) private match3Prefab: Prefab = null;
-    @property(Canvas) private canvas2d: Canvas = null!;
-
-    start() {
+@ccclass('GCtr')
+export class GCtr extends Component {
+    async init(param: {
+        canvas: Canvas
+    }) {
         this.adapterScreen();
 
-        UIManager.getInstance().Infinity(this.canvas2d);
-        
+        UIManager.getInstance().init(param.canvas);
         ResManager.getInstance().loadBundle("LoginBN", _ => {
             const loginEntryClass = js.getClassByName("LoginEntry") as typeof Component;
             this.node.addComponent(loginEntryClass);
         })
+    }
+    
+    start() {
+
     }
 
     update(deltaTime: number) {
@@ -56,6 +57,7 @@ export class boost extends Component {
         console.log(`屏幕${isScreenWidthLarger ? "更宽, 高度适配" : "更高, 宽度适配"} 设计分辨率比例下的屏幕尺寸: ${G_VIEW_SIZE.width}x${G_VIEW_SIZE.height}`);
 
         return isScreenWidthLarger;
-    }   
+    }  
 }
+
 

@@ -1,7 +1,8 @@
 import { _decorator, Component, Node, instantiate, UITransform } from 'cc';
-import { G_VIEW_SIZE } from '../../boost';
-import { ResManager } from '../../fw/res/ResManager';
+import { G_VIEW_SIZE } from 'db://assets/Boost/boost';
+import { ResManager } from '../../../core/modules/res/ResManager';
 const { ccclass, property } = _decorator;
+
 
 @ccclass('Match3Entry')
 export class Match3Entry extends Component {

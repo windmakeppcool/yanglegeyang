@@ -11,7 +11,7 @@
   },
   {
     "__type__": "cc.Scene",
-    "_name": "Mainscene",
+    "_name": "Main.scene",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": null,
@@ -727,12 +727,14 @@
     "__type__": "69f59uq5EBNLZFF7zALsWUE",
     "_name": "",
     "_objFlags": 0,
-    "__editorExtras__": {},
     "node": {
       "__id__": 2
     },
     "_enabled": true,
     "__prefab": null,
+    "canvas2d": {
+      "__id__": 17
+    },
     "_id": "7ctVpCCLVAX4N+fKeUyX9c"
   },
   {
