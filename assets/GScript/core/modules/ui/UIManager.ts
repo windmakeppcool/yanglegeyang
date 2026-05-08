@@ -82,7 +82,7 @@ export class UIManager {
         return this._instance;
     }
 
-    private constructor() {
+    constructor() {
         
     }
 

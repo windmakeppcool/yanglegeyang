@@ -20,7 +20,7 @@ export class ResManager extends Component {
         return this._instance;
     }
 
-    private constructor() {
+    constructor() {
         super();
     }
 
