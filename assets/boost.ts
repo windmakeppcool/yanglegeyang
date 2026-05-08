@@ -1,5 +1,6 @@
-import { _decorator, Component, ResolutionPolicy, screen, Size, view, js } from 'cc';
+import { _decorator, Component, ResolutionPolicy, screen, Size, view, js, Canvas } from 'cc';
 import { ResManager } from './fw/res/ResManager';
+import { UIManager } from './fw/ui/UIManager';
 const { ccclass, property } = _decorator;
 
 
@@ -13,9 +14,12 @@ export const G_VIEW_SIZE = new Size(0, 0);
 @ccclass('boost')
 export class boost extends Component {
     // @property(Prefab) private match3Prefab: Prefab = null;
+    @property(Canvas) private canvas2d: Canvas = null!;
 
     start() {
         this.adapterScreen();
+
+        UIManager.getInstance().Infinity(this.canvas2d);
         
         ResManager.getInstance().loadBundle("LoginBN", _ => {
             const loginEntryClass = js.getClassByName("LoginEntry") as typeof Component;

@@ -55,5 +55,16 @@ export class ResManager extends Component {
             cb && cb(bundle);
         });
     }
+
+    /**
+     * 加载 Asset Bundle 接口
+     * @param bundleName 
+     * @returns 
+     */
+    loadBundleAsync(bundleName: string): Promise<AssetManager.Bundle> {
+        return new Promise<AssetManager.Bundle>(rs => {
+            this.loadBundle(bundleName, rs);
+        })
+    }
 }
 
