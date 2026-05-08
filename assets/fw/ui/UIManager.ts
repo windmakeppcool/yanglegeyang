@@ -2,7 +2,15 @@ import { instantiate, UITransform, Canvas, Layers, Node } from 'cc';
 import { G_VIEW_SIZE } from '../../boost';
 import { ResManager } from '../../fw/res/ResManager';
 import { EViewLayer } from './EViewLayer';
+import { Match3UI } from '../../Match3/script/Match3UI';
+import { BL } from '../res/ResConst';
 
+function getUIClassBUrl(uiClass: any): IBundleUrl | void {
+    if (uiClass === Match3UI) {
+        return BL("Match3UI", "Match3BN");
+    }
+    console.log(`未找到 UI 类 ${uiClass}`);
+}
 
 class MyLayer {
     public readonly node: Node;
@@ -43,7 +51,11 @@ export class UIManager {
     }
 
     open(uiClass: any) {
-        ResManager.getInstance().loadPrefab("Match3BN", "Match3UI", prefab => {
+        const bUrl = getUIClassBUrl(uiClass);
+        if (!bUrl) {
+            return;
+        }
+        ResManager.getInstance().loadPrefabByBUrl(bUrl, prefab => {
             let Match3Node = instantiate(prefab)!;
             this.m_Layers[EViewLayer.UI].node.addChild(Match3Node);
             Match3Node.getComponent(UITransform).setContentSize(G_VIEW_SIZE.clone());

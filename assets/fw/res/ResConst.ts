@@ -1,6 +1,3 @@
-import { _decorator, Component, Node } from 'cc';
-const { ccclass, property } = _decorator;
-
 declare global {
     interface IBundleUrl {
         /** * 子包名 */ b: string,

@@ -36,6 +36,9 @@ export class ResManager extends Component {
             })
         })
     }
+    loadPrefabByBUrl(bUrl: IBundleUrl, cb: (prefab: Prefab | null) => void) { 
+        this.loadPrefab(bUrl.b, bUrl.l, cb); 
+    }
 
     loadAudioClip(bundleName: string, audioPath: string, cb: (assert: AudioClip | null) => void) {
         assetManager.loadBundle(bundleName, (e, bundle) => {
@@ -48,6 +51,9 @@ export class ResManager extends Component {
                 cb(assert)
             })
         })
+    }
+    loadAudioByBUrl(bUrl: IBundleUrl, cb: (audioClip: AudioClip | null) => void) { 
+        this.loadAudioClip(bUrl.b, bUrl.l, cb); 
     }
 
     loadBundle(bundleName: string, cb?: (bundle: AssetManager.Bundle | null) => void) {
@@ -66,5 +72,8 @@ export class ResManager extends Component {
             this.loadBundle(bundleName, rs);
         })
     }
+
+    
+    
 }
 
