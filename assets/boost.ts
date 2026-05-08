@@ -1,5 +1,5 @@
-import { _decorator, assetManager, AudioSource, Component, instantiate, Node, Prefab, ResolutionPolicy, resources, screen, Size, UITransform, view } from 'cc';
-import { ResManager } from '../fw/res/ResManager';
+import { _decorator, Component, ResolutionPolicy, screen, Size, view, js } from 'cc';
+import { ResManager } from './fw/res/ResManager';
 const { ccclass, property } = _decorator;
 
 

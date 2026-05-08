@@ -1,5 +1,5 @@
 import { _decorator, AudioSource, Component, instantiate, UITransform } from 'cc';
-import { G_VIEW_SIZE } from '../../scripts/boost';
+import { G_VIEW_SIZE } from '../../boost';
 import { ResManager } from '../../fw/res/ResManager';
 const { ccclass, property } = _decorator;
 
@@ -33,6 +33,3 @@ export class LoginEntry extends Component {
         
     }
 }
-
-
-a
