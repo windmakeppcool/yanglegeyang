@@ -37,7 +37,7 @@ export class AudioManager extends Component {
         b: string,
         l: string,
     }): void {
-        ResManager.getInstance().loadAudioClip(bUrl.b, bUrl.l, audioClip => {
+        gCtr.res.loadAudioClip(bUrl.b, bUrl.l, audioClip => {
             let audioSource = this.m_AudioSource;
             audioSource.clip = audioClip;
             audioSource.loop = true;
