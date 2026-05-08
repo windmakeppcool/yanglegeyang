@@ -2,6 +2,7 @@ import { _decorator, AudioSource, Component, instantiate, UITransform } from 'cc
 import { G_VIEW_SIZE } from '../../boost';
 import { ResManager } from '../../fw/res/ResManager';
 import { AudioManager } from '../../fw/audio/audioManager';
+import { LoginAudio } from './LoginAudio';
 const { ccclass, property } = _decorator;
 
 @ccclass('LoginEntry')
