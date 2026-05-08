@@ -1,6 +1,6 @@
 import { _decorator, Component, Node, instantiate, UITransform } from 'cc';
-import { G_VIEW_SIZE } from 'db://assets/Boost/boost';
 import { ResManager } from '../../../core/modules/res/ResManager';
+import { G_VIEW_SIZE } from '../../../core/modules/ui/UIManager';
 const { ccclass, property } = _decorator;
 
 
