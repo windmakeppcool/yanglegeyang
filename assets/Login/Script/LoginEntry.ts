@@ -7,22 +7,22 @@ const { ccclass, property } = _decorator;
 @ccclass('LoginEntry')
 export class LoginEntry extends Component {
     start() {
+        // 加载背景音乐后播放
+        AudioManager.getInstance().playMusic({
+            b: "Match3BN",
+            l: "Audio/background",
+        });
+
         this.scheduleOnce(() => {
-            ResManager.getInstance().loadPrefab("Match3BN", "Match3UI", prefab => {
-                if (!prefab) {
-                    console.error("Match3UI 为空");
-                    return;
-                }
-                let match3Node = instantiate(prefab);
-                this.node.addChild(match3Node);
-                match3Node.getComponent(UITransform).setContentSize(G_VIEW_SIZE.clone());
-            });
-            AudioManager.getInstance().playMusic({
-                b: "Match3BN",
-                l: "Audio/background",
-            });
-        }, 1)
+            ResManager.getInstance().loadBundle("Match3BN", ()=> {
+                let match3Entry  = this.node.addComponent("Match3Entry");
+                (match3Entry as any ).init();
+            })
+        })
     }
+
+
+        
 
     update(deltaTime: number) {
         
