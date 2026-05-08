@@ -27,8 +27,8 @@ export class GCtr extends Component {
 
         // 显示登录界面（传入登录成功回调函数）
         this.loginCtr.showLogin(async () => {
-            await ResManager.getInstance().loadBundleAsync("Match3BN");
-            UIManager.getInstance().open("Match3UI");
+            await gCtr.res.loadBundleAsync("Match3BN");
+            gCtr.ui.open("Match3UI");
             console.log("登录 登录成功");
         });
     }
