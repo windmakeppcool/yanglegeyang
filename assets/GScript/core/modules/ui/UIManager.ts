@@ -5,13 +5,13 @@ import { ResLoader } from '../res/ResLoader';
 
 
 const g_UICls2BUrl = new Map<any, IBundleUrl>();
-const g_Key2BUrl = new Map<string, IBundleUrl>();
+const g_Key2Url = new Map<string, IBundleUrl>();
 
-export function registerBUrlByCfg(cfg:{
-    [uiClassName: string]: IBundleUrl
+export function registerBUrlByCfg(cfg: {
+    [uiClassName: string]: IBundleUrl;
 }) {
     for (let uiClassName in cfg) {
-        g_Key2BUrl.set(uiClassName, cfg[uiClassName]);
+        g_Key2Url.set(uiClassName, cfg[uiClassName]);
     }
 }
 
@@ -33,8 +33,7 @@ export function getUIClassBUrl(uiClass: any): IBundleUrl | null {
         uiClassName = js.getClassName(uiClass);
     }
     // let bUrl = PrefabCfg[uiClassName];
-    let bUrl = g_Key2BUrl.get(uiClassName);
-
+    let bUrl = g_Key2Url.get(uiClassName);
     if (!bUrl) {
         console.error(`UI 类 ${uiClassName} 未配置 PrefabCfg`);
         return null;

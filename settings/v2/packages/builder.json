@@ -25,9 +25,12 @@
               "isRemote": false,
               "compressionType": "merge_dep"
             },
-            "configMode": "fallback",
+            "configMode": "overwrite",
             "overwriteSettings": {
               "alipay-mini-game": {
+                "compressionType": "merge_dep"
+              },
+              "bytedance-mini-game": {
                 "compressionType": "subpackage"
               },
               "wechatgame": {
