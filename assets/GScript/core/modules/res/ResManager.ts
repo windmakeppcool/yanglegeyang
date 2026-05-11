@@ -1,4 +1,4 @@
-import { _decorator, AssetManager, assetManager, AudioClip, Prefab } from 'cc';
+import { _decorator, Asset, AssetManager, assetManager, AudioClip, Constructor, Prefab } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('ResManager')
@@ -64,4 +64,19 @@ export class ResManager {
             this.loadBundle(bundleName, rs);
         })
     }
+
+    loadAssetAsync<T extends Asset>(bUrl: IBundleUrl, type: Constructor<T> | null) {
+        return new Promise<T>(rs => {
+            assetManager.loadBundle(bUrl.b, (e, bundle) => {
+                bundle.load(bUrl.l, type, (err, _asset) => {
+                    if (err) {
+                        console.error(err);
+                        return rs(null);
+                    }
+                    rs(_asset)
+                })
+            })
+        })
+    }
+
 }

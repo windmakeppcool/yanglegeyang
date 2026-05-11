@@ -1,4 +1,4 @@
-import { instantiate, UITransform, Canvas, Layers, Node, Size, ResolutionPolicy, view, screen, js } from 'cc';
+import { instantiate, UITransform, Canvas, Layers, Node, Size, ResolutionPolicy, view, screen, js, Component, Prefab, Constructor, assetManager } from 'cc';
 import { EViewLayer } from './EViewLayer';
 import { ResManager } from '../res/ResManager';
 
@@ -39,7 +39,7 @@ function getUIClassBUrl(uiClass: any): IBundleUrl | null {
         return null;
     }
     g_UICls2BUrl.set(uiClass, bUrl);
-    
+
     return bUrl;
 }
 
@@ -116,12 +116,34 @@ export class UIManager {
         })
     }
 
-    async loadBundleAndOpen(bundleName: string, uiClassName: string) {
-        const bundle = await this.m_ResManager.loadBundleAsync(bundleName);
-        if (!bundle) {
-            console.error(`Bundle ${bundleName} 加载失败`);
-            return;
+    instantiate<UE extends Component>(ueClass: Constructor<UE>): UE {
+        let bUrl = getUIClassBUrl(ueClass);
+        if (!bUrl) {
+            console.error(`无法找到 UI 类 ${ueClass.name} 的 Bundle 配置`);
+            return null!;
         }
-        this.open(uiClassName);
+        let bundle = assetManager.getBundle(bUrl.b);
+        if (!bundle) {
+            console.error(`Bundle ${bUrl.b} 未加载`);
+            return null!;
+        }
+        let prefab: Prefab | null = bundle.get(bUrl.l, Prefab);
+        if (!prefab) {
+            console.error(`加载 UI Prefab 失败: ${bUrl.b}/${bUrl.l}`);
+            return null!;
+        }
+        let node: Node = instantiate(prefab)!;
+        return (node.getComponent(ueClass as any) || node.addComponent(ueClass as any)) as any as UE;
     }
+
+    // async loadBundleAndOpen(bundleName: string, uiClassName: string) {
+    //     const bundle = await this.m_ResManager.loadBundleAsync(bundleName);
+    //     if (!bundle) {
+    //         console.error(`Bundle ${bundleName} 加载失败`);
+    //         return;
+    //     }
+    //     this.open(uiClassName);
+    // }
+
+
 }
