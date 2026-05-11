@@ -142,7 +142,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "bdbpWAOCtCg7Ta7YHGVnLU"
+    "fileId": "26tSYXj5JFx66nHuaEqHnS"
   },
   {
     "__type__": "cc.Sprite",
@@ -167,7 +167,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "57520716-48c8-4a19-8acf-41c9f8777fb0@f9941",
+      "__uuid__": "b1281ab7-cb8a-4bad-b91d-d1edd77ffb16@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 1,
@@ -187,7 +187,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "20lwMUVWdGsY9vHpYkGydS"
+    "fileId": "bcfHFxqh9Fn6msAOGYAeKm"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -197,7 +197,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "c4BhEcnm5Lj786UWOfk7Fs",
+    "fileId": "74zr2ADMBPVLLNjkf+Ikc5",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
@@ -266,8 +266,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 102,
-      "height": 120
+      "width": 40,
+      "height": 36
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -278,7 +278,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "8dljLmjmhFLq24nrtP7t4+"
+    "fileId": "37a3kHk+JEWaRgFCtY03uf"
   },
   {
     "__type__": "cc.Sprite",
@@ -302,13 +302,10 @@
       "b": 255,
       "a": 255
     },
-    "_spriteFrame": {
-      "__uuid__": "57520716-48c8-4a19-8acf-41c9f8777fb0@f9941",
-      "__expectedType__": "cc.SpriteFrame"
-    },
+    "_spriteFrame": null,
     "_type": 0,
     "_fillType": 0,
-    "_sizeMode": 0,
+    "_sizeMode": 1,
     "_fillCenter": {
       "__type__": "cc.Vec2",
       "x": 0,
@@ -323,7 +320,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "e4V9vlsX9Om44W4i91PpRi"
+    "fileId": "88PCeYa5pE8LJzr3TGv1E6"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -333,7 +330,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "e2EN1N6jBEFbmHLjz2KJ7V",
+    "fileId": "88dyaO+T5G/IxqCOg6IAKd",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null

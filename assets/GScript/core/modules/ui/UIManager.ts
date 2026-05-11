@@ -1,8 +1,7 @@
 import { instantiate, UITransform, Canvas, Layers, Node, Size, ResolutionPolicy, view, screen, js } from 'cc';
 import { EViewLayer } from './EViewLayer';
-import { BL } from '../res/ResConst';
 import { ResManager } from '../res/ResManager';
-import { PrefabCfg } from '../../../auto/PrefabCfg';
+
 
 const g_UICls2BUrl = new Map<any, IBundleUrl>();
 const g_Key2BUrl = new Map<string, IBundleUrl>();
@@ -34,12 +33,13 @@ function getUIClassBUrl(uiClass: any): IBundleUrl | null {
     }
     // let bUrl = PrefabCfg[uiClassName];
     let bUrl = g_Key2BUrl.get(uiClassName);
-    
+
     if (!bUrl) {
         console.error(`UI 类 ${uiClassName} 未配置 PrefabCfg`);
         return null;
     }
     g_UICls2BUrl.set(uiClass, bUrl);
+    
     return bUrl;
 }
 
