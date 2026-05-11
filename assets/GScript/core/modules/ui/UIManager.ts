@@ -18,7 +18,7 @@ function setUIClassBUrl(uiClass: any, bUrl: IBundleUrl) {
     return g_UICls2BUrl.set(uiClass, bUrl);
 }
 
-function getUIClassBUrl(uiClass: any): IBundleUrl | null {
+export function getUIClassBUrl(uiClass: any): IBundleUrl | null {
     if (!uiClass) {
         return null;
     }
