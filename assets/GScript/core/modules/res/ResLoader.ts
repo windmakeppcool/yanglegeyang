@@ -5,8 +5,6 @@ import { DestoryHook } from './DestoryHook';
 const { ccclass, property } = _decorator;
 
 
-
-
 @ccclass('ResLoader')
 export class ResLoader extends Component {
     /** 待加载的资源 */
@@ -26,7 +24,9 @@ export class ResLoader extends Component {
             bUrl: prefabBUrl!,
         });
 
-        // if ()
+        if (typeof uiClass['R'] === "function") {
+            (uiClass['R'] as Function).call(uiClass, this);
+        }
 
         return this;
     }

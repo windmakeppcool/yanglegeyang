@@ -26,11 +26,6 @@ export class GCtr extends Component {
         // 提前注册预制体信息
         gCtr.ui.init(param.canvas2d);
 
-        // 提前注册预制体信息
-        registerBUrlByCfg(PrefabCfg);
-
-        gCtr.ui.init(param.canvas2d);
-
         // 登录模块初始化
         gCtr.loginCtr.init();
 

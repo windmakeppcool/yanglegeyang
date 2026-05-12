@@ -116,7 +116,7 @@ export class UIManager {
     //     })
     // }
 
-    async openc<UI extends Component>(uiClass: Constructor<UI>): Promise<UI> {
+    async open<UI extends Component>(uiClass: Constructor<UI>): Promise<UI> {
         const resLoader = new ResLoader();
         resLoader.addUI(uiClass);
         await resLoader.load();
