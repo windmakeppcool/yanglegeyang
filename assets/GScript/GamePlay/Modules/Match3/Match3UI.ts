@@ -8,12 +8,16 @@ const { ccclass, property } = _decorator;
 @ccclass('Match3UI')
 export class Match3UI extends Component {
 
-    private m_ResLoader: ResLoader = null!;
+    // private m_ResLoader: ResLoader = null!;
 
     async start() {
         console.log("主玩法界面");
-        this.m_ResLoader = new ResLoader();
-        await this.m_ResLoader.load();
+        // this.m_ResLoader = new ResLoader();
+        // await this.m_ResLoader.load();
+
+        const resLoader = new ResLoader().autoRelease(this);
+        resLoader.addUI(Match3ZiUE);
+        await resLoader.load();
 
         let ziUE = gCtr.ui.instantiate(Match3ZiUE);
         if (!ziUE) {
@@ -25,7 +29,7 @@ export class Match3UI extends Component {
     }
 
     onDestroy() {
-        this.m_ResLoader.releaseResRef();
+        // resLoader.releaseResRef();  
     }
 }
 

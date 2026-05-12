@@ -1,6 +1,7 @@
 import { _decorator, Asset, Component, Constructor, Node, Prefab } from 'cc';
 import { PrefabCfg } from '../../../auto/PrefabCfg';
 import { getUIClassBUrl } from "../ui/UIManager";
+import { DestoryHook } from './DestoryHook';
 const { ccclass, property } = _decorator;
 
 
@@ -49,6 +50,13 @@ export class ResLoader extends Component {
         while (this.loadedAssets.length) {
             this.loadedAssets.pop().decRef(true);
         }
+    }
+
+    autoRelease(comp: Component) {
+        comp.node.addComponent(DestoryHook).addHook(() => {
+            this.releaseResRef();
+        })
+        return this;
     }
 }
 
