@@ -65,16 +65,27 @@ export class ResManager {
         })
     }
 
-    loadAssetAsync<T extends Asset>(bUrl: IBundleUrl, type: Constructor<T> | null) {
-        return new Promise<T>(rs => {
+    loadAssetAsync<T extends Asset>(bUrl: IBundleUrl, type: Constructor<T> | null): Promise<T | null> {
+        return new Promise<T | null>(rs => {
             assetManager.loadBundle(bUrl.b, (e, bundle) => {
-                bundle.load(bUrl.l, type, (err, _asset) => {
-                    if (err) {
+                if (e || !bundle) {
+                    console.error(`Bundle ${bUrl.b} 加载失败:`, e);
+                    rs(null);
+                    return;
+                }
+                const onLoaded = (err: any, asset: T) => {
+                    if (err || !asset) {
                         console.error(err);
-                        return rs(null);
+                        rs(null);
+                        return;
                     }
-                    rs(_asset)
-                })
+                    rs(asset);
+                };
+                if (type) {
+                    bundle.load(bUrl.l, type, onLoaded);
+                } else {
+                    (bundle.load as any)(bUrl.l, onLoaded);
+                }
             })
         })
     }

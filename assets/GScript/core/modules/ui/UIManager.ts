@@ -95,35 +95,29 @@ export class UIManager {
         }
     }
 
-    // open(uiClassOrName: any) {
-    //     let uiClass = uiClassOrName;
-    //     if (typeof uiClassOrName === 'string') {
-    //         uiClass = js.getClassByName(uiClassOrName);
-    //     }
-    //     const bUrl = getUIClassBUrl(uiClass);
-    //     if (!bUrl) {
-    //         console.error(`无法找到 UI 类 ${uiClassOrName} 的 Bundle 配置`);
-    //         return;
-    //     }
-    //     this.m_ResManager.loadPrefabByBUrl(bUrl, prefab => {
-    //         if (!prefab) {
-    //             console.error(`加载 UI Prefab 失败: ${bUrl.b}/${bUrl.l}`);
-    //             return;
-    //         }
-    //         let uiNode = instantiate(prefab)!;
-    //         this.m_Layers[EViewLayer.UI].node.addChild(uiNode);
-    //         uiNode.getComponent(UITransform).setContentSize(G_VIEW_SIZE.clone());
-    //     })
-    // }
-
-    async open<UI extends Component>(uiClass: Constructor<UI>): Promise<UI> {
+    async open<UI extends Component>(uiClass: Constructor<UI> & {readonly viewLayer: EViewLayer;}): Promise<UI> {
+        const viewLayer: EViewLayer = typeof (uiClass.viewLayer) == 'number' ? uiClass.viewLayer : EViewLayer.UI;
         const resLoader = new ResLoader();
         resLoader.addUI(uiClass);
         await resLoader.load();
         let ui = this.instantiate(uiClass);
-        this.m_Layers[EViewLayer.UI].node.addChild(ui.node);
+        if (!ui) {
+            console.error(`打开 UI 失败: ${uiClass.name}`);
+            return null!;
+        }
+
+        this.m_Layers[viewLayer].node.addChild(ui.node);
         ui.node.getComponent(UITransform).setContentSize(G_VIEW_SIZE.clone());
         resLoader.autoRelease(ui);
+
+        // const layer = this.m_Layers[EViewLayer.UI];
+        // if (!layer) {
+        //     console.error("UIManager 未初始化");
+        //     return null!;
+        // }
+        // layer.node.addChild(ui.node);
+        // ui.node.getComponent(UITransform).setContentSize(G_VIEW_SIZE.clone());
+        // resLoader.autoRelease(ui);
         return ui;
     }
 
@@ -146,15 +140,5 @@ export class UIManager {
         let node: Node = instantiate(prefab)!;
         return (node.getComponent(ueClass as any) || node.addComponent(ueClass as any)) as any as UE;
     }
-
-    // async loadBundleAndOpen(bundleName: string, uiClassName: string) {
-    //     const bundle = await this.m_ResManager.loadBundleAsync(bundleName);
-    //     if (!bundle) {
-    //         console.error(`Bundle ${bundleName} 加载失败`);
-    //         return;
-    //     }
-    //     this.open(uiClassName);
-    // }
-
 
 }

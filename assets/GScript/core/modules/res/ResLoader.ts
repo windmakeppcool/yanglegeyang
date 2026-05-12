@@ -1,5 +1,5 @@
 import { _decorator, Asset, Component, Constructor, Node, Prefab } from 'cc';
-import { PrefabCfg } from '../../../auto/PrefabCfg';
+// import { PrefabCfg } from '../../../auto/PrefabCfg';
 import { getUIClassBUrl } from "../ui/UIManager";
 import { DestoryHook } from './DestoryHook';
 const { ccclass, property } = _decorator;
@@ -34,13 +34,19 @@ export class ResLoader extends Component {
     async load() {
         let toLoadPromises = this.toLoadAssets.map(toLoad => gCtr.res.loadAssetAsync(toLoad.bUrl, toLoad.type));
         let toLoadResults = await Promise.all(toLoadPromises);
-        toLoadResults.forEach(assert => {
-            // 资源加引用计数
-            assert.addRef();
+        toLoadResults.forEach((asset, i) => {
+            if (!asset) {
+                const bUrl = this.toLoadAssets[i]?.bUrl;
+                if (bUrl) {
+                    console.error(`资源加载失败: ${bUrl.b}/${bUrl.l}`);
+                }
+                return;
+            }
+            asset.addRef();
             if (!this.m_Released) {
-                this.loadedAssets.push(assert);
+                this.loadedAssets.push(asset);
             } else {
-                assert.decRef(true);
+                asset.decRef(true);
             }
         })
     }
