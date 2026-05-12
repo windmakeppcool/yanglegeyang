@@ -1,6 +1,7 @@
 import { instantiate, UITransform, Canvas, Layers, Node, Size, ResolutionPolicy, view, screen, js, Component, Prefab, Constructor, assetManager } from 'cc';
 import { EViewLayer } from './EViewLayer';
 import { ResManager } from '../res/ResManager';
+import { ResLoader } from '../res/ResLoader';
 
 
 const g_UICls2BUrl = new Map<any, IBundleUrl>();
@@ -95,25 +96,36 @@ export class UIManager {
         }
     }
 
-    open(uiClassOrName: any) {
-        let uiClass = uiClassOrName;
-        if (typeof uiClassOrName === 'string') {
-            uiClass = js.getClassByName(uiClassOrName);
-        }
-        const bUrl = getUIClassBUrl(uiClass);
-        if (!bUrl) {
-            console.error(`无法找到 UI 类 ${uiClassOrName} 的 Bundle 配置`);
-            return;
-        }
-        this.m_ResManager.loadPrefabByBUrl(bUrl, prefab => {
-            if (!prefab) {
-                console.error(`加载 UI Prefab 失败: ${bUrl.b}/${bUrl.l}`);
-                return;
-            }
-            let uiNode = instantiate(prefab)!;
-            this.m_Layers[EViewLayer.UI].node.addChild(uiNode);
-            uiNode.getComponent(UITransform).setContentSize(G_VIEW_SIZE.clone());
-        })
+    // open(uiClassOrName: any) {
+    //     let uiClass = uiClassOrName;
+    //     if (typeof uiClassOrName === 'string') {
+    //         uiClass = js.getClassByName(uiClassOrName);
+    //     }
+    //     const bUrl = getUIClassBUrl(uiClass);
+    //     if (!bUrl) {
+    //         console.error(`无法找到 UI 类 ${uiClassOrName} 的 Bundle 配置`);
+    //         return;
+    //     }
+    //     this.m_ResManager.loadPrefabByBUrl(bUrl, prefab => {
+    //         if (!prefab) {
+    //             console.error(`加载 UI Prefab 失败: ${bUrl.b}/${bUrl.l}`);
+    //             return;
+    //         }
+    //         let uiNode = instantiate(prefab)!;
+    //         this.m_Layers[EViewLayer.UI].node.addChild(uiNode);
+    //         uiNode.getComponent(UITransform).setContentSize(G_VIEW_SIZE.clone());
+    //     })
+    // }
+
+    async openc<UI extends Component>(uiClass: Constructor<UI>): Promise<UI> {
+        const resLoader = new ResLoader();
+        resLoader.addUI(uiClass);
+        await resLoader.load();
+        let ui = this.instantiate(uiClass);
+        this.m_Layers[EViewLayer.UI].node.addChild(ui.node);
+        ui.node.getComponent(UITransform).setContentSize(G_VIEW_SIZE.clone());
+        resLoader.autoRelease(ui);
+        return ui;
     }
 
     instantiate<UE extends Component>(ueClass: Constructor<UE>): UE {

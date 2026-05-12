@@ -26,6 +26,8 @@ export class ResLoader extends Component {
             bUrl: prefabBUrl!,
         });
 
+        // if ()
+
         return this;
     }
 
