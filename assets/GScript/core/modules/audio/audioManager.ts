@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, AudioSource, director } from 'cc';
+import { _decorator, Component, Node, AudioSource, director, AudioClip } from 'cc';
 import { ResManager } from '../res/ResManager';
 const { ccclass, property } = _decorator;
 
@@ -9,14 +9,6 @@ export class AudioManager extends Component {
     private m_AttachNode: Node = null;
     /** AudioSource 组件 */
     private m_AudioSource: AudioSource = null;
-
-    start() {
-
-    }
-
-    update(deltaTime: number) {
-        
-    }
 
     /** 获取单例的接口 */
     static getInstance() {
@@ -33,16 +25,13 @@ export class AudioManager extends Component {
         this.m_AudioSource = this.m_AttachNode.addComponent(AudioSource);
     }
 
-    playMusic(bUrl: {
-        b: string,
-        l: string,
-    }): void {
-        gCtr.res.loadAudioClip(bUrl.b, bUrl.l, audioClip => {
-            let audioSource = this.m_AudioSource;
-            audioSource.clip = audioClip;
-            audioSource.loop = true;
-            audioSource.play();
-        })
+    async playMusic(bUrl: IBundleUrl) {
+        // 
+        const audioClip = await gCtr.res.loadAssetAsync(bUrl, AudioClip);
+        let audioSource = this.m_AudioSource;
+        audioSource.clip = audioClip;
+        audioSource.loop = true;
+        audioSource.play(); 
     }
 }
 

@@ -4,27 +4,27 @@ const { ccclass, property } = _decorator;
 @ccclass('ResManager')
 export class ResManager {
 
-    loadPrefab(bundleName: string, prefabPath: string, cb: (prefab: Prefab | null) => void) {
-        assetManager.loadBundle(bundleName, (e, bundle) => {
-            if (e || !bundle) {
-                console.error(`Bundle ${bundleName} 加载失败:`, e);
-                cb(null);
-                return;
-            }
-            bundle.load(prefabPath, Prefab, (err, prefab: Prefab) => {
-                if (err) {
-                    console.error(err);
-                    cb(null);
-                    return;
-                }
-                cb(prefab)
-            })
-        })
-    }
+    // loadPrefab(bundleName: string, prefabPath: string, cb: (prefab: Prefab | null) => void) {
+    //     assetManager.loadBundle(bundleName, (e, bundle) => {
+    //         if (e || !bundle) {
+    //             console.error(`Bundle ${bundleName} 加载失败:`, e);
+    //             cb(null);
+    //             return;
+    //         }
+    //         bundle.load(prefabPath, Prefab, (err, prefab: Prefab) => {
+    //             if (err) {
+    //                 console.error(err);
+    //                 cb(null);
+    //                 return;
+    //             }
+    //             cb(prefab)
+    //         })
+    //     })
+    // }
 
-    loadPrefabByBUrl(bUrl: IBundleUrl, cb: (prefab: Prefab | null) => void) { 
-        this.loadPrefab(bUrl.b, bUrl.l, cb); 
-    }
+    // loadPrefabByBUrl(bUrl: IBundleUrl, cb: (prefab: Prefab | null) => void) { 
+    //     this.loadPrefab(bUrl.b, bUrl.l, cb); 
+    // }
 
     loadAudioClip(bundleName: string, audioPath: string, cb: (assert: AudioClip | null) => void) {
         assetManager.loadBundle(bundleName, (e, bundle) => {
@@ -44,9 +44,9 @@ export class ResManager {
         })
     }
 
-    loadAudioByBUrl(bUrl: IBundleUrl, cb: (audioClip: AudioClip | null) => void) { 
-        this.loadAudioClip(bUrl.b, bUrl.l, cb); 
-    }
+    // loadAudioByBUrl(bUrl: IBundleUrl, cb: (audioClip: AudioClip | null) => void) { 
+    //     this.loadAudioClip(bUrl.b, bUrl.l, cb); 
+    // }
 
     loadBundle(bundleName: string, cb?: (bundle: AssetManager.Bundle | null) => void) {
         assetManager.loadBundle(bundleName, (e, bundle) => {
@@ -59,13 +59,13 @@ export class ResManager {
         });
     }
 
-    loadBundleAsync(bundleName: string): Promise<AssetManager.Bundle | null> {
+    async loadBundleAsync(bundleName: string): Promise<AssetManager.Bundle | null> {
         return new Promise<AssetManager.Bundle | null>(rs => {
             this.loadBundle(bundleName, rs);
         })
     }
 
-    loadAssetAsync<T extends Asset>(bUrl: IBundleUrl, type: Constructor<T> | null): Promise<T | null> {
+    async loadAssetAsync<T extends Asset>(bUrl: IBundleUrl, type: Constructor<T> | null): Promise<T | null> {
         return new Promise<T | null>(rs => {
             assetManager.loadBundle(bUrl.b, (e, bundle) => {
                 if (e || !bundle) {

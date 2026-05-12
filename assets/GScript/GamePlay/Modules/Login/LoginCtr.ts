@@ -1,4 +1,4 @@
-import { AudioManager } from "../../../core/modules/audio/audioManager"
+import { AudioManager } from "../../../core/modules/audio/AudioManager"
 import { LoginAudio } from "./LoginAudio";
 
 
