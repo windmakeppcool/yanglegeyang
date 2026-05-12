@@ -59,13 +59,13 @@ export class ResManager {
         });
     }
 
-    async loadBundleAsync(bundleName: string): Promise<AssetManager.Bundle | null> {
+    loadBundleAsync(bundleName: string): Promise<AssetManager.Bundle | null> {
         return new Promise<AssetManager.Bundle | null>(rs => {
             this.loadBundle(bundleName, rs);
         })
     }
 
-    async loadAssetAsync<T extends Asset>(bUrl: IBundleUrl, type: Constructor<T> | null): Promise<T | null> {
+    loadAssetAsync<T extends Asset>(bUrl: IBundleUrl, type: Constructor<T> | null): Promise<T | null> {
         return new Promise<T | null>(rs => {
             assetManager.loadBundle(bUrl.b, (e, bundle) => {
                 if (e || !bundle) {

@@ -1,9 +1,10 @@
-import { _decorator, Component, assetManager, js, Canvas, AssetManager } from 'cc';
+import { _decorator, Component, assetManager, js, Canvas, AssetManager, Node } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('boost')
 export class boost extends Component {
     @property(Canvas) private canvas2d: Canvas = null!;
+    @property(Node) private toReleaseNode: Node = null!;
 
     private loadBundle(bundleName: string): Promise<AssetManager.Bundle | null> {
         return new Promise<AssetManager.Bundle | null>(rs => {
@@ -26,13 +27,19 @@ export class boost extends Component {
                 console.error("GScriptBN Bundle 加载失败，游戏无法启动");
                 return;
             }
-            const gCtrClass = js.getClassByName("GCtr") as typeof Component;
-            if (!gCtrClass) {
-                console.error("无法找到 GCtr 类");
-                return;
-            }
-            const gCtr = this.node.addComponent(gCtrClass);
-            await (gCtr as any).init({ canvas2d: this.canvas2d });
+            
+            const gCtr = this.node.addComponent("GCtr");
+            await (gCtr as any).init({ 
+                canvas2d: this.canvas2d,
+                releaseBoostFun: () => {
+                    // 这里进行销毁首场景的渲染节点和释放资源等操作
+                    if (this.toReleaseNode === null) {
+                        return;
+                    }
+                    this.toReleaseNode.destroy();
+                    this.toReleaseNode = null;
+                }
+            });
         } catch (error) {
             console.error("游戏启动失败:", error);
         }

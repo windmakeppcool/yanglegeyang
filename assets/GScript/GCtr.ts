@@ -17,7 +17,8 @@ export class GCtr extends Component {
     readonly ui = new UIManager();
     
     async init(param: {
-        canvas2d: Canvas
+        canvas2d: Canvas,
+        releaseBoostFun: Function,
     }) {
         // UIManager.getInstance().init(param.canvas);
         // 全局变量设置
@@ -39,6 +40,7 @@ export class GCtr extends Component {
             await gCtr.res.loadBundleAsync("Match3BN");
             await gCtr.ui.open(Match3UI);
             console.log("登录成功");
+            param.releaseBoostFun();
         });
     }
     

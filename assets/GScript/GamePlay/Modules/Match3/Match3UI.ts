@@ -12,13 +12,22 @@ export class Match3UI extends Component {
 
     async start() {
         console.log("主玩法界面");
-        let ziUE = gCtr.ui.instantiate(Match3ZiUE);
-        if (!ziUE) {
-            console.error("无法获取 Match3ZiUE 组件");
-            return;
-        }
-        ziUE.node.setParent(this.node);
-        ziUE.init();
+        let ziArr = [
+            [0, 0],
+            [1, 1],
+            [2, 2]
+        ];
+        ziArr.forEach(zi => {
+            let ziUE = gCtr.ui.instantiate(Match3ZiUE);
+            if (!ziUE) {
+                console.error("无法获取 Match3ZiUE 组件");
+                return;
+            }
+            ziUE.node.setParent(this.node);
+            ziUE.init();
+            ziUE.node.setPosition(zi[0] * 102, zi[1] * 120);
+        })
+        
     }
 
     onDestroy() {
