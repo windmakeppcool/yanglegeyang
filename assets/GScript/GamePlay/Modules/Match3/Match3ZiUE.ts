@@ -1,4 +1,4 @@
-import { _decorator, Component, Sprite, SpriteFrame } from 'cc';
+import { _decorator, Color, Component, Sprite, SpriteFrame } from 'cc';
 import { SpriteFramesCfg } from '../../../auto/SpriteFramesCfg';
 const { ccclass, property } = _decorator;
 
@@ -8,13 +8,28 @@ export class Match3ZiUE extends Component {
     @property(Sprite) private bg: Sprite = null!;
     @property(Sprite) private sprite: Sprite = null!;
 
-    init() {
+    col: number = 0;
+    row: number = 0;
+    style: number = 0;
+
+    init(col: number, row: number, style: number){
         console.log("初始化 Match3ZiUE");
+        this.col = col;
+        this.row = row;
+        this.style = style;
+        this.node.setPosition(col * 17, row * 20);
+        this.setDisplay(style);
     }
 
     setDisplay(style: number) {
         let spriteFrame = gCtr.res.getAsset(SpriteFramesCfg.pai(`pai-${style}`), SpriteFrame);
         this.sprite.spriteFrame = spriteFrame;
+    }
+
+    /** 设置是否可点击（不可点击时变暗） */
+    setClickable(bClickable: boolean) {
+        this.bg.color = bClickable ? Color.WHITE :  new Color(120, 120, 120, 180);
+        this.sprite.color = bClickable ? Color.WHITE :  new Color(120, 120, 120, 180);
     }
 }
 
