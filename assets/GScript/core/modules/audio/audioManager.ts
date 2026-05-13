@@ -6,9 +6,9 @@ const { ccclass, property } = _decorator;
 export class AudioManager extends Component {
     private static _instance: AudioManager = null!;
     /** AudioSource 挂载在此节点上 */
-    private m_AttachNode: Node = null;
+    private m_AttachNode: Node = null!;
     /** AudioSource 组件 */
-    private m_AudioSource: AudioSource = null;
+    private m_AudioSource: AudioSource = null!;
 
     /** 获取单例的接口 */
     static getInstance() {

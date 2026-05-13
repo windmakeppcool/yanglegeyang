@@ -7,6 +7,8 @@ const { ccclass, property } = _decorator;
 
 @ccclass('Match3UI')
 export class Match3UI extends Component {
+    @property(Node) private board: Node = null!;
+
     static R(loader: ResLoader) {
         loader.addUI(Match3ZiUE);
         for (let i = 1; i <= 30; i++) {
@@ -19,8 +21,8 @@ export class Match3UI extends Component {
         console.log("主玩法界面");
         let ziArr = [
             [0, 0],
-            [1, 1],
-            [2, 2]
+            [6, 6],
+            [12, 12]
         ];
         ziArr.forEach(zi => {
             let ziUE = gCtr.ui.instantiate(Match3ZiUE);
@@ -28,9 +30,9 @@ export class Match3UI extends Component {
                 console.error("无法获取 Match3ZiUE 组件");
                 return;
             }
-            ziUE.node.setParent(this.node);
+            ziUE.node.setParent(this.board);
             ziUE.init();
-            ziUE.node.setPosition(zi[0] * 102, zi[1] * 120);
+            ziUE.node.setPosition(zi[0] * 17, zi[1] * 20);
             ziUE.setDisplay(1);
         })
         
