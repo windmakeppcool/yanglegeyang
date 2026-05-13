@@ -29,6 +29,16 @@ export class Match3UI extends Component {
         }
     }
 
+    removeZi(ziUE: Match3ZiUE) {
+        this.m_ZiList.splice(this.m_ZiList.indexOf(ziUE), 1);
+        // 棋子栈栈顶肯定是该棋子
+        for (let r = 0; r < 6; ++r) {
+            for (let c = 0; c < 6; ++c) {
+                this.stacks[ziUE.row + r][ziUE.col + c].pop();
+            }
+        }
+    }
+
     calcClickable(ziUE: Match3ZiUE): boolean {
         let stack: ZiStack;
         for (let r = 0; r < 6; ++r) {
@@ -61,6 +71,28 @@ export class Match3UI extends Component {
             zis: [col: number, row: number, style: number][]
         };
 
+        let clickFunc = (clicZi: Match3ZiUE) => {
+            let isClickable = this.calcClickable(clicZi);
+            if (!isClickable) {
+                return;
+            }
+            let ziCol = clicZi.col;
+            let ziRow = clicZi.row;
+            this.removeZi(clicZi);
+            // 目前表现是先销毁
+            clicZi.node.destroy();
+            // 下方刷新
+            let stack: ZiStack = null!;
+            for (let r = 0; r < 6; ++r) {
+                for (let c = 0; c < 6; c++) {
+                    stack = this.stacks[ziRow + r][ziCol + c];
+                    if (!stack.empty) {
+                        stack.top.setClickable(this.calcClickable(stack.top));
+                    }
+                }
+            }
+        }
+
         levelJson.zis.forEach(zi => {
             let ziUE = gCtr.ui.instantiate(Match3ZiUE);
             if (!ziUE) {
@@ -68,7 +100,7 @@ export class Match3UI extends Component {
                 return;
             }
             ziUE.node.setParent(this.board);
-            ziUE.init(zi[0], zi[1], zi[2]);
+            ziUE.init(zi[0], zi[1], zi[2], clickFunc);
             this.addZi(ziUE);
         })
 

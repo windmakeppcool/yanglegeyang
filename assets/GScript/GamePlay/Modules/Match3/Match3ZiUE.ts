@@ -12,11 +12,13 @@ export class Match3ZiUE extends Component {
     row: number = 0;
     style: number = 0;
 
-    init(col: number, row: number, style: number){
+    private m_ClickFunc: (zi: Match3ZiUE) => any = null!;
+    init(col: number, row: number, style: number, clickFunc: (zi: Match3ZiUE) => any){
         console.log("初始化 Match3ZiUE");
         this.col = col;
         this.row = row;
         this.style = style;
+        this.m_ClickFunc = clickFunc;
         this.node.setPosition(col * 17, row * 20);
         this.setDisplay(style);
     }
@@ -31,6 +33,12 @@ export class Match3ZiUE extends Component {
         this.bg.color = bClickable ? Color.WHITE :  new Color(120, 120, 120, 180);
         this.sprite.color = bClickable ? Color.WHITE :  new Color(120, 120, 120, 180);
     }
+
+    click() {
+        this.m_ClickFunc(this);
+    }
+
+    
 }
 
 
