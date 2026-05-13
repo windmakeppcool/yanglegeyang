@@ -1,4 +1,4 @@
-import { _decorator, Asset, Component, Constructor, Node, Prefab } from 'cc';
+import { _decorator, Asset, Component, Constructor, Node, Prefab, SpriteFrame } from 'cc';
 // import { PrefabCfg } from '../../../auto/PrefabCfg';
 import { getUIClassBUrl } from "../ui/UIManager";
 import { DestoryHook } from './DestoryHook';
@@ -18,18 +18,22 @@ export class ResLoader extends Component {
     private m_Released: boolean = false;
 
     addUI<UI extends Component>(uiClass: Constructor<UI>) {
-        let prefabBUrl = getUIClassBUrl(uiClass);
-        this.toLoadAssets.push({
-            type: Prefab,
-            bUrl: prefabBUrl!,
-        });
-
+        this.addAsset(getUIClassBUrl(uiClass), Prefab);
         if (typeof uiClass['R'] === "function") {
             (uiClass['R'] as Function).call(uiClass, this);
         }
-
         return this;
     }
+
+    addAsset(bUrl: IBundleUrl, type: Constructor<Asset> | null) {
+        this.toLoadAssets.push({
+            type: type,
+            bUrl: bUrl,
+        })
+        return this;
+    }
+
+    addSpriteFrame(bUrl: IBundleUrl) { return this.addAsset(bUrl, SpriteFrame) }
 
     async load() {
         let toLoadPromises = this.toLoadAssets.map(toLoad => gCtr.res.loadAssetAsync(toLoad.bUrl, toLoad.type));

@@ -1,4 +1,5 @@
-import { _decorator, Component, Node, Sprite } from 'cc';
+import { _decorator, Component, Sprite, SpriteFrame } from 'cc';
+import { SpriteFramesCfg } from '../../../auto/SpriteFramesCfg';
 const { ccclass, property } = _decorator;
 
 @ccclass('Match3ZiUE')
@@ -11,12 +12,9 @@ export class Match3ZiUE extends Component {
         console.log("初始化 Match3ZiUE");
     }
 
-    start() {
-
-    }
-
-    update(deltaTime: number) {
-        
+    setDisplay(style: number) {
+        let spriteFrame = gCtr.res.getAsset(SpriteFramesCfg.pai(`pai-${style}`), SpriteFrame);
+        this.sprite.spriteFrame = spriteFrame;
     }
 }
 

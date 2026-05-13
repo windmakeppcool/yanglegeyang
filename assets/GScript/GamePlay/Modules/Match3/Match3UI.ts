@@ -1,6 +1,7 @@
 import { _decorator, Component, instantiate, Node, Prefab } from 'cc';
 import { Match3ZiUE } from './Match3ZiUE';
 import { ResLoader } from '../../../core/modules/res/ResLoader';
+import { SpriteFramesCfg } from '../../../auto/SpriteFramesCfg';
 const { ccclass, property } = _decorator;
 
 
@@ -8,7 +9,11 @@ const { ccclass, property } = _decorator;
 export class Match3UI extends Component {
     static R(loader: ResLoader) {
         loader.addUI(Match3ZiUE);
+        for (let i = 1; i <= 30; i++) {
+            loader.addSpriteFrame(SpriteFramesCfg.pai(`pai-${i}`));
+        }
     }
+    
 
     async start() {
         console.log("主玩法界面");
@@ -26,6 +31,7 @@ export class Match3UI extends Component {
             ziUE.node.setParent(this.node);
             ziUE.init();
             ziUE.node.setPosition(zi[0] * 102, zi[1] * 120);
+            ziUE.setDisplay(1);
         })
         
     }

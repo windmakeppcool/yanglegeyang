@@ -4,28 +4,6 @@ const { ccclass, property } = _decorator;
 @ccclass('ResManager')
 export class ResManager {
 
-    // loadPrefab(bundleName: string, prefabPath: string, cb: (prefab: Prefab | null) => void) {
-    //     assetManager.loadBundle(bundleName, (e, bundle) => {
-    //         if (e || !bundle) {
-    //             console.error(`Bundle ${bundleName} 加载失败:`, e);
-    //             cb(null);
-    //             return;
-    //         }
-    //         bundle.load(prefabPath, Prefab, (err, prefab: Prefab) => {
-    //             if (err) {
-    //                 console.error(err);
-    //                 cb(null);
-    //                 return;
-    //             }
-    //             cb(prefab)
-    //         })
-    //     })
-    // }
-
-    // loadPrefabByBUrl(bUrl: IBundleUrl, cb: (prefab: Prefab | null) => void) { 
-    //     this.loadPrefab(bUrl.b, bUrl.l, cb); 
-    // }
-
     loadAudioClip(bundleName: string, audioPath: string, cb: (assert: AudioClip | null) => void) {
         assetManager.loadBundle(bundleName, (e, bundle) => {
             if (e || !bundle) {
@@ -90,4 +68,8 @@ export class ResManager {
         })
     }
 
+    getAsset<T extends Asset>(bUrl: IBundleUrl, type?: Constructor<T> | null): T {
+    let assetBundle = assetManager.getBundle(bUrl.b);
+    return assetBundle.get(bUrl.l, type);
+}
 }
