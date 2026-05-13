@@ -1,4 +1,4 @@
-import { _decorator, Component, JsonAsset, Node } from 'cc';
+import { _decorator, Component, JsonAsset, Node, tween, Vec3 } from 'cc';
 import { Match3ZiUE } from './Match3ZiUE';
 import { SpriteFramesCfg } from '../../../auto/SpriteFramesCfg';
 import { JsonsCfg } from '../../../auto/JsonCfg';
@@ -9,6 +9,7 @@ const { ccclass, property } = _decorator;
 @ccclass('Match3UI')
 export class Match3UI extends Component {
     @property(Node) private board: Node = null!;
+    @property(Node) private collectArea: Node = null!;
 
     private m_ZiList: Match3ZiUE[] = [];
     private stacks: ZiStack[][] = [];
@@ -79,8 +80,12 @@ export class Match3UI extends Component {
             let ziCol = clicZi.col;
             let ziRow = clicZi.row;
             this.removeZi(clicZi);
-            // 目前表现是先销毁
-            clicZi.node.destroy();
+            // 目前表现是移动到 collectArea 节点下
+            clicZi.node.setParent(this.collectArea, true);
+            tween(clicZi.node)
+                .to(0.15, { position: new Vec3(0, 0, 0) })
+                .start();
+
             // 下方刷新
             let stack: ZiStack = null!;
             for (let r = 0; r < 6; ++r) {

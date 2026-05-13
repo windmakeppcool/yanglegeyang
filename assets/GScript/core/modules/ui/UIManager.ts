@@ -109,15 +109,7 @@ export class UIManager {
         this.m_Layers[viewLayer].node.addChild(ui.node);
         ui.node.getComponent(UITransform).setContentSize(G_VIEW_SIZE.clone());
         resLoader.autoRelease(ui);
-
-        // const layer = this.m_Layers[EViewLayer.UI];
-        // if (!layer) {
-        //     console.error("UIManager 未初始化");
-        //     return null!;
-        // }
-        // layer.node.addChild(ui.node);
-        // ui.node.getComponent(UITransform).setContentSize(G_VIEW_SIZE.clone());
-        // resLoader.autoRelease(ui);
+        
         return ui;
     }
 
