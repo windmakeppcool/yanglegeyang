@@ -13,6 +13,7 @@ export class Match3UI extends Component {
 
     private m_ZiList: Match3ZiUE[] = [];
     private stacks: ZiStack[][] = [];
+    private m_PlaceHolders: Match3ZiUE[] = [];
 
     static R(loader: ResLoader) {
         loader.addUI(Match3ZiUE);
@@ -52,6 +53,38 @@ export class Match3UI extends Component {
         }
         return true;
     }
+
+    private tryCollectingZi(clickZi: Match3ZiUE) {
+        // 已经有 7 个了，不让继续收集
+        if (this.m_PlaceHolders.length === 7) {
+            return false;
+        }
+        // 没有 7 个
+        // 1.先从后往前找，看看有没有同花色的棋子，有的话，就插入
+        for (let i = this.m_PlaceHolders.length - 1; i >= 0; i--) {
+            let zi = this.m_PlaceHolders[i];
+            if (zi.style === clickZi.style) {
+                this.m_PlaceHolders.splice(i + 1, 0, clickZi);
+                clickZi.moveToTargetIndex(this.collectArea, i + 1, () => {
+                    // 检测消除或者失败逻辑
+                    // TODO
+                })
+                // 后面的棋子如果正在做飞行动画，要改目标
+                for (let j = i + 2; j < this.m_PlaceHolders.length; j++) {
+                    this.m_PlaceHolders[j].changeMovingTargetIndex(j);
+                }
+                return true;
+            }
+
+        }
+        // 2.找不到花色，那么直接插入
+        this.m_PlaceHolders.push(clickZi);
+        clickZi.moveToTargetIndex(this.collectArea, this.m_PlaceHolders.length - 1, () => {
+            // 检测消除或者失败逻辑
+            // TODO
+        })
+        return true;
+    }
     
 
     async start() {
@@ -75,6 +108,10 @@ export class Match3UI extends Component {
         let clickFunc = (clicZi: Match3ZiUE) => {
             let isClickable = this.calcClickable(clicZi);
             if (!isClickable) {
+                return;
+            }
+            const isCollectFly = this.tryCollectingZi(clicZi);
+            if (!isCollectFly) {
                 return;
             }
             let ziCol = clicZi.col;
@@ -115,6 +152,4 @@ export class Match3UI extends Component {
         
     }
 
-    onDestroy() {
-    }
 }
