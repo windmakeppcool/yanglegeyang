@@ -80,15 +80,16 @@ export class Match3UI extends Component {
                 clickZi.moveToTargetIndex(this.collectArea, i + 1, () => {
                     // 检测消除或者失败逻辑
                     if (elimination.length > 0) {
-                        // 消除行为
                         elimination.forEach(it => {
                             this.m_PlaceHolders.splice(this.m_PlaceHolders.indexOf(it), 1);
                             it.node.destroy();
                         })
+                        for (let j = 0; j < this.m_PlaceHolders.length; j++) {
+                            this.m_PlaceHolders[j].changeMovingTargetIndex(j);
+                        }
                     } else {
                         this.checkLose();
                     }
-                    // TODO
                 })
                 // 后面的棋子如果正在做飞行动画，要改目标
                 for (let j = i + 2; j < this.m_PlaceHolders.length; j++) {
