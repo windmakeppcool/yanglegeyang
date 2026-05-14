@@ -24,6 +24,7 @@ export class Match3ZiUE extends Component {
     /** 用平滑因子替换：二维的移动速度 */
     private m_SmoothFactor: number = 0.2;
     private m_FlyingCallback: Function  = null!;
+    isMarkEliminate: boolean = false;
 
     col: number = 0;
     row: number = 0;

@@ -65,8 +65,26 @@ export class Match3UI extends Component {
             let zi = this.m_PlaceHolders[i];
             if (zi.style === clickZi.style) {
                 this.m_PlaceHolders.splice(i + 1, 0, clickZi);
+                // 标记当前子是否和前面 2 个子形成了消除
+                let elimination: Match3ZiUE[] = [];
+                if (!zi.isMarkEliminate && (i >= 1) && (this.m_PlaceHolders[i - 1].style === clickZi.style) 
+                    && !this.m_PlaceHolders[i - 1].isMarkEliminate) {
+                    // 形成消除
+                    elimination.push(zi);
+                    elimination.push(this.m_PlaceHolders[i - 1]);
+                    elimination.push(clickZi);
+                    // 标记消除
+                    elimination.forEach(it => it.isMarkEliminate= true);
+                }
                 clickZi.moveToTargetIndex(this.collectArea, i + 1, () => {
                     // 检测消除或者失败逻辑
+                    if (elimination.length > 0) {
+                        // 消除行为
+                        elimination.forEach(it => {
+                            this.m_PlaceHolders.splice(this.m_PlaceHolders.indexOf(it), 1);
+                            it.node.destroy();
+                        })
+                    }
                     // TODO
                 })
                 // 后面的棋子如果正在做飞行动画，要改目标
