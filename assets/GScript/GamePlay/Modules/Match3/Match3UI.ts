@@ -11,6 +11,7 @@ export class Match3UI extends Component {
     @property(Node) private board: Node = null!;
     @property(Node) private collectArea: Node = null!;
 
+    private m_IsLose: boolean = false;
     private m_ZiList: Match3ZiUE[] = [];
     private stacks: ZiStack[][] = [];
     private m_PlaceHolders: Match3ZiUE[] = [];
@@ -84,6 +85,8 @@ export class Match3UI extends Component {
                             this.m_PlaceHolders.splice(this.m_PlaceHolders.indexOf(it), 1);
                             it.node.destroy();
                         })
+                    } else {
+                        this.checkLose();
                     }
                     // TODO
                 })
@@ -98,12 +101,23 @@ export class Match3UI extends Component {
         // 2.找不到花色，那么直接插入
         this.m_PlaceHolders.push(clickZi);
         clickZi.moveToTargetIndex(this.collectArea, this.m_PlaceHolders.length - 1, () => {
-            // 检测消除或者失败逻辑
-            // TODO
+            this.checkLose();
         })
         return true;
     }
     
+    checkLose() {
+        if (this.m_PlaceHolders.length < 7) return;
+        for (let i = 0; i < this.m_PlaceHolders.length; i++) {
+            if (this.m_PlaceHolders[i].isMarkEliminate) {
+                return;
+            }
+        }
+        
+        if (this.m_IsLose) return;
+        this.m_IsLose = true;
+        console.log(`游戏失败弹窗`)
+    }
 
     async start() {
         console.log("主玩法界面");
